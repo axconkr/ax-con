@@ -58,8 +58,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: "전화",
-    value: "02-000-0000",
-    href: "tel:02-000-0000",
+    value: "010-4739-0704",
+    href: "tel:010-4739-0704",
   },
   {
     icon: Clock,
@@ -69,7 +69,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: "위치",
-    value: "서울특별시",
+    value: "서울특별시 봉은사로 121",
   },
 ]
 

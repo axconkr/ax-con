@@ -10,11 +10,16 @@ export function OrganizationJsonLd() {
     email: "axconkr@gmail.com",
     address: {
       "@type": "PostalAddress",
+      streetAddress: "봉은사로 121",
+      addressLocality: "강남구",
+      addressRegion: "서울특별시",
       addressCountry: "KR",
     },
+    telephone: "+82-10-4739-0704",
     sameAs: [],
     contactPoint: {
       "@type": "ContactPoint",
+      telephone: "+82-10-4739-0704",
       email: "axconkr@gmail.com",
       contactType: "customer service",
       availableLanguage: ["Korean"],
@@ -39,14 +44,18 @@ export function LocalBusinessJsonLd() {
     url: "https://ax-con.com",
     email: "axconkr@gmail.com",
     priceRange: "$$",
+    telephone: "+82-10-4739-0704",
     address: {
       "@type": "PostalAddress",
+      streetAddress: "봉은사로 121",
+      addressLocality: "강남구",
+      addressRegion: "서울특별시",
       addressCountry: "KR",
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: "37.5665",
-      longitude: "126.9780",
+      latitude: "37.5087",
+      longitude: "127.0632",
     },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
