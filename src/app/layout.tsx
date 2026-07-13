@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { OrganizationJsonLd, LocalBusinessJsonLd } from "@/components/seo/json-ld";
+import { OrganizationJsonLd, LocalBusinessJsonLd, ProfessionalServiceJsonLd, BreadcrumbListJsonLd } from "@/components/seo/json-ld";
 import { Chatbot } from "@/components/chatbot/chatbot";
 
 const inter = Inter({
@@ -64,6 +64,8 @@ export default function RootLayout({
         />
         <OrganizationJsonLd />
         <LocalBusinessJsonLd />
+        <ProfessionalServiceJsonLd />
+        <BreadcrumbListJsonLd />
       </head>
       <body
         className={`${inter.variable} font-sans antialiased`}

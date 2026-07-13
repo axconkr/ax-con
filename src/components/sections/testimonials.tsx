@@ -69,7 +69,7 @@ export default function TestimonialsSection() {
                 
                 <div className="relative z-10">
                   <p className="text-xl md:text-2xl font-medium leading-normal text-foreground/90 mb-8 break-keep">
-                    "{testimonial.quote}"
+                    &quot;{testimonial.quote}&quot;
                   </p>
                 </div>
 

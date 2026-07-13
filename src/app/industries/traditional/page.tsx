@@ -364,7 +364,7 @@ export default function TraditionalIndustryPage() {
                   </div>
                   
                   <blockquote className="relative">
-                    <div className="absolute -top-2 -left-2 text-6xl text-primary/20 font-serif">"</div>
+                    <div className="absolute -top-2 -left-2 text-6xl text-primary/20 font-serif">&quot;</div>
                     <p className="relative z-10 text-lg md:text-xl text-foreground/80 leading-relaxed pl-6">
                       {caseStudy.quote}
                     </p>
