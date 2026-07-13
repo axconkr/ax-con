@@ -1,16 +1,12 @@
-import { axConEntityDescription, knowsAbout, serviceTypes } from "@/lib/ai-readable-content";
-
 export function OrganizationJsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "AX Con",
-    alternateName: "AX-Consulting",
+    name: "AX-Consulting",
     url: "https://ax-con.com",
     logo: "https://ax-con.com/logo.png",
-    description: axConEntityDescription,
-    areaServed: "KR",
-    knowsAbout,
+    description:
+      "중소기업 맞춤 AI 자동화 컨설팅. 제조업, 의료, 전통산업 특화 솔루션으로 평균 47% 비용 절감.",
     email: "axconkr@gmail.com",
     address: {
       "@type": "PostalAddress",
@@ -41,15 +37,12 @@ export function OrganizationJsonLd() {
 export function LocalBusinessJsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "AX Con",
+    "@type": "LocalBusiness",
+    name: "AX-Consulting",
     description:
       "중소기업 AI 자동화 컨설팅 전문. AI 컨설팅, 업무 자동화, AI 교육 서비스 제공.",
     url: "https://ax-con.com",
     email: "axconkr@gmail.com",
-    areaServed: "KR",
-    serviceType: serviceTypes,
-    knowsAbout,
     priceRange: "$$",
     telephone: "+82-10-4739-0704",
     address: {
@@ -130,79 +123,6 @@ export function FAQJsonLd({
         text: faq.answer,
       },
     })),
-  }
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  )
-}
-
-export function ProfessionalServiceJsonLd() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "AX Con",
-    description: axConEntityDescription,
-    url: "https://ax-con.com",
-    areaServed: "KR",
-    serviceType: serviceTypes,
-    knowsAbout,
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "KR",
-      addressRegion: "Seoul",
-    },
-  }
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  )
-}
-
-export function BreadcrumbListJsonLd() {
-  const pages = [
-    ["Home", "https://ax-con.com/"],
-    ["About", "https://ax-con.com/about"],
-    ["Services", "https://ax-con.com/services/ai-transformation"],
-    ["Industries", "https://ax-con.com/industries/sme"],
-    ["FAQ", "https://ax-con.com/faq"],
-    ["Blog", "https://ax-con.com/blog"],
-  ]
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: pages.map(([name, item], index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name,
-      item,
-    })),
-  }
-
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  )
-}
-
-export function ArticleJsonLd({ title, description, url }: { title: string; description: string; url: string }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: title,
-    description,
-    url,
-    author: { "@type": "Organization", name: "AX Con" },
-    publisher: { "@type": "Organization", name: "AX Con" },
-    mainEntityOfPage: url,
   }
 
   return (

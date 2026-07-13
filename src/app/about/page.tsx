@@ -294,7 +294,7 @@ export default function AboutPage() {
                 className="grid grid-cols-1 md:grid-cols-3 gap-8"
                 variants={fadeUp}
               >
-                {stats.map((stat) => (
+                {stats.map((stat, index) => (
                   <motion.div
                     key={stat.label}
                     variants={fadeUp}

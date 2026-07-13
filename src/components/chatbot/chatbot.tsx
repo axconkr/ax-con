@@ -88,7 +88,6 @@ export function Chatbot() {
     if (!messageText) return
 
     const userMessage: Message = {
-      // eslint-disable-next-line react-hooks/purity -- generated inside an event handler, not during render
       id: Date.now().toString(),
       role: "user",
       content: messageText,
@@ -104,7 +103,6 @@ export function Chatbot() {
     const answer = findAnswer(messageText)
     
     const assistantMessage: Message = {
-      // eslint-disable-next-line react-hooks/purity -- generated inside an event handler, not during render
       id: (Date.now() + 1).toString(),
       role: "assistant",
       content: answer || "죄송합니다. 해당 질문에 대한 답변을 찾지 못했습니다.\n\n더 자세한 상담을 원하시면:\n• 전화: 010-4739-0704\n• 이메일: axconkr@gmail.com\n\n또는 '상담 신청' 페이지를 이용해주세요.",
