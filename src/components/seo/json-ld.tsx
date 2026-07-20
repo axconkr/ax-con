@@ -7,7 +7,7 @@ export function OrganizationJsonLd() {
     logo: "https://ax-con.com/logo.png",
     description:
       "중소기업 맞춤 AI 자동화 컨설팅. 제조업, 의료, 전통산업 특화 솔루션으로 평균 47% 비용 절감.",
-    email: "axconkr@gmail.com",
+    email: "axcon@ax-con.com",
     address: {
       "@type": "PostalAddress",
       streetAddress: "봉은사로 121",
@@ -20,7 +20,7 @@ export function OrganizationJsonLd() {
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+82-10-4739-0704",
-      email: "axconkr@gmail.com",
+      email: "axcon@ax-con.com",
       contactType: "customer service",
       availableLanguage: ["Korean"],
     },
@@ -42,7 +42,7 @@ export function LocalBusinessJsonLd() {
     description:
       "중소기업 AI 자동화 컨설팅 전문. AI 컨설팅, 업무 자동화, AI 교육 서비스 제공.",
     url: "https://ax-con.com",
-    email: "axconkr@gmail.com",
+    email: "axcon@ax-con.com",
     priceRange: "$$",
     telephone: "+82-10-4739-0704",
     address: {

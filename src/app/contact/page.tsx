@@ -52,8 +52,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: "이메일",
-    value: "axconkr@gmail.com",
-    href: "mailto:axconkr@gmail.com",
+    value: "axcon@ax-con.com",
+    href: "mailto:axcon@ax-con.com",
   },
   {
     icon: Phone,
@@ -482,7 +482,7 @@ export default function ContactPage() {
                     className="w-full bg-white text-primary hover:bg-white/90"
                     asChild
                   >
-                    <a href="mailto:axconkr@gmail.com">이메일로 문의하기</a>
+                    <a href="mailto:axcon@ax-con.com">이메일로 문의하기</a>
                   </Button>
                 </div>
 
