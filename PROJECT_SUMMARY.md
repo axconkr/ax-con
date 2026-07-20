@@ -27,7 +27,7 @@
 |------|-----|
 | GitHub | https://github.com/axconkr/ax-con |
 | Vercel | 자동 배포 연동 |
-| 이메일 | axconkr@gmail.com |
+| 이메일 | axcon@ax-con.com |
 | 전화 | 010-4739-0704 |
 | 주소 | 서울특별시 봉은사로 121 |
 
@@ -86,7 +86,7 @@
 ### 1. 문의 폼
 - React Hook Form + Zod 유효성 검사
 - Resend API를 통한 이메일 발송
-- 수신 이메일: axconkr@gmail.com
+- 수신 이메일: axcon@ax-con.com
 
 ### 2. 1:1 챗봇
 - 실시간 대화형 UI

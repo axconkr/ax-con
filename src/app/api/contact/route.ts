@@ -2,7 +2,8 @@ import { NextResponse } from "next/server"
 import { Resend } from "resend"
 import { contactSchema, industryOptions, companySizeOptions, serviceOptions } from "@/lib/validations/contact"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const REPRESENTATIVE_EMAIL = "axcon@ax-con.com"
+const RESEND_FROM = process.env.RESEND_FROM_EMAIL || `AX CON <${REPRESENTATIVE_EMAIL}>`
 
 export async function POST(request: Request) {
   try {
@@ -19,6 +20,15 @@ export async function POST(request: Request) {
     }
 
     const data = result.data
+
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json(
+        { success: false, message: "이메일 발송 설정이 아직 완료되지 않았습니다." },
+        { status: 503 }
+      )
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY)
     
     const industryLabel = industryOptions.find(opt => opt.value === data.industry)?.label || data.industry
     const companySizeLabel = companySizeOptions.find(opt => opt.value === data.companySize)?.label || data.companySize
@@ -127,8 +137,8 @@ export async function POST(request: Request) {
 `
 
     const { error } = await resend.emails.send({
-      from: "AX-Consulting <onboarding@resend.dev>",
-      to: ["axconkr@gmail.com"],
+      from: RESEND_FROM,
+      to: [REPRESENTATIVE_EMAIL],
       replyTo: data.email,
       subject: emailSubject,
       html: emailHtml,

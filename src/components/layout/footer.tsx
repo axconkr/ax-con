@@ -63,7 +63,7 @@ export function Footer() {
           <div>
             <h3 className="text-sm font-medium text-foreground mb-4">연락처</h3>
             <p className="text-sm text-muted-foreground">
-              axconkr@gmail.com
+              axcon@ax-con.com
             </p>
           </div>
         </div>
