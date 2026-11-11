@@ -20,6 +20,7 @@
  */
 import fs from "node:fs"
 import path from "node:path"
+import { fileURLToPath } from "node:url"
 
 const ROOT = process.cwd()
 const BLOG = path.join(ROOT, "content", "blog")
@@ -30,20 +31,20 @@ const AUTO_DIR = path.join(BLOG, "topics-auto")
 const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash"
 const API_KEY = process.env.GEMINI_API_KEY
 const DRY = process.env.DRY_RUN === "1"
-const CATEGORIES = ["strategy", "industry", "practice", "guide"]
+export const CATEGORIES = ["strategy", "industry", "practice", "guide"]
 
 const BANNED = ["혁신적", "게임 체인저", "게임체인저", "AI 시대에", "알아보겠습니다", "결론적으로", "놀라운", "완벽한", "해보세요!"]
 
 // ---------- helpers ----------
-function todayKST() {
+export function todayKST() {
   return new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10)
 }
 
-function readJSON(file) {
+export function readJSON(file) {
   return JSON.parse(fs.readFileSync(file, "utf8"))
 }
 
-function parseFrontmatter(raw) {
+export function parseFrontmatter(raw) {
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/)
   if (!m) return { data: {}, body: raw }
   const data = {}
@@ -60,7 +61,7 @@ function parseFrontmatter(raw) {
   return { data, body: m[2] }
 }
 
-function existingPosts() {
+export function existingPosts() {
   if (!fs.existsSync(POSTS)) return []
   return fs
     .readdirSync(POSTS)
@@ -126,16 +127,17 @@ const POST_SCHEMA = {
 }
 
 // ---------- lint ----------
-function lint(post, existingSlugs) {
+export function lint(post, existingSlugs) {
   const issues = []
   const body = post.body || ""
-  const plainLen = body.replace(/[#*|`>\-\s]/g, "").length
+  // 공백 포함 글자 수 (마크다운 기호 제외, 연속 공백은 1칸)
+  const plainLen = body.replace(/\s+/g, " ").replace(/[#*|`>\-]/g, "").trim().length
   const h2 = (body.match(/^## /gm) || []).length
   if (post.title.length < 12 || post.title.length > 40) issues.push(`제목 길이 ${post.title.length}자 — 15~35자로`)
   if (post.description.length < 70 || post.description.length > 170)
     issues.push(`설명문 길이 ${post.description.length}자 — 80~150자로`)
-  if (plainLen < 2200) issues.push(`본문이 짧습니다(약 ${plainLen}자) — 2,500자 이상으로`)
-  if (plainLen > 5000) issues.push(`본문이 깁니다(약 ${plainLen}자) — 4,000자 안팎으로`)
+  if (plainLen < 2300) issues.push(`본문이 짧습니다(약 ${plainLen}자) — 2,500자 이상으로`)
+  if (plainLen > 5200) issues.push(`본문이 깁니다(약 ${plainLen}자) — 4,000자 안팎으로`)
   if (h2 < 3 || h2 > 6) issues.push(`소제목(##)이 ${h2}개 — 3~5개로`)
   if (/^# /m.test(body)) issues.push("본문에 # 제목이 있습니다 — 제거")
   if (!/^\|.*\|\s*$/m.test(body)) issues.push("표가 없습니다 — 비교 표를 1개 이상")
@@ -157,7 +159,7 @@ function lint(post, existingSlugs) {
 // ---------- topic handling ----------
 // 주제 상태는 topics.json 을 고치지 않고 "글 frontmatter의 topic" 으로 판단합니다.
 // 그래서 초안 PR이 여러 개 열려 있어도 서로 충돌하지 않습니다.
-function loadTopics() {
+export function loadTopics() {
   const topics = [...readJSON(TOPICS_FILE).topics]
   if (fs.existsSync(AUTO_DIR)) {
     for (const f of fs.readdirSync(AUTO_DIR).filter((f) => f.endsWith(".json")).sort()) {
@@ -167,7 +169,7 @@ function loadTopics() {
   return topics
 }
 
-function usedTopicIds(posts) {
+export function usedTopicIds(posts) {
   const pending = (process.env.BLOG_PENDING_TOPICS || "").split(",").map((s) => s.trim()).filter(Boolean)
   return new Set([...posts.map((p) => p.topic).filter(Boolean), ...pending])
 }
@@ -337,7 +339,9 @@ async function main() {
   console.log(`작성 완료: content/blog/posts/${slug}.md${issues.length ? ` (남은 지적 ${issues.length}건)` : ""}`)
 }
 
-main().catch((e) => {
-  console.error(e.message || e)
-  process.exit(1)
-})
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((e) => {
+    console.error(e.message || e)
+    process.exit(1)
+  })
+}
