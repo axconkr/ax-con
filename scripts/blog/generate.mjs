@@ -2,7 +2,8 @@
 /**
  * AX 인사이트 블로그 자동 작성기
  *
- * - content/blog/topics.json 에서 status가 "queued"인 첫 주제를 골라
+ * - content/blog/topics.json (+ topics-auto/*.json) 에서 아직 쓰지 않은 queued 주제를 골라
+ *   (이미 게시된 글과 열려 있는 초안 PR의 topic 은 건너뜁니다)
  * - content/blog/STYLE.md 기준과 기존 글 한 편을 본보기로 Gemini(무료 등급)에 글을 쓰게 하고
  * - 규칙 검사(lint)에 걸리면 고쳐 쓰게 한 뒤
  * - content/blog/posts/<slug>.md 로 저장합니다.
@@ -12,6 +13,7 @@
  *   GEMINI_MODEL    (선택) 기본 gemini-2.5-flash
  *   BLOG_TOPIC      (선택) 대기열 대신 이 주제로 바로 작성
  *   BLOG_CATEGORY   (선택) BLOG_TOPIC 과 함께 쓸 분류 (strategy|industry|practice|guide)
+ *   BLOG_PENDING_TOPICS (선택) 열린 초안 PR들의 topic id, 쉼표 구분 — 워크플로가 채움
  *   DRY_RUN=1       (선택) API를 호출하지 않고 프롬프트만 출력
  *
  * 외부 패키지 없이 Node 20+ 만으로 동작합니다.
@@ -24,6 +26,7 @@ const BLOG = path.join(ROOT, "content", "blog")
 const POSTS = path.join(BLOG, "posts")
 const TOPICS_FILE = path.join(BLOG, "topics.json")
 const STYLE_FILE = path.join(BLOG, "STYLE.md")
+const AUTO_DIR = path.join(BLOG, "topics-auto")
 const MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash"
 const API_KEY = process.env.GEMINI_API_KEY
 const DRY = process.env.DRY_RUN === "1"
@@ -65,7 +68,7 @@ function existingPosts() {
     .map((f) => {
       const raw = fs.readFileSync(path.join(POSTS, f), "utf8")
       const { data, body } = parseFrontmatter(raw)
-      return { slug: f.replace(/\.md$/, ""), title: data.title, description: data.description, category: data.category, date: data.date, raw, body }
+      return { slug: f.replace(/\.md$/, ""), topic: data.topic, title: data.title, description: data.description, category: data.category, date: data.date, raw, body }
     })
     .sort((a, b) => String(b.date).localeCompare(String(a.date)))
 }
@@ -152,12 +155,29 @@ function lint(post, existingSlugs) {
 }
 
 // ---------- topic handling ----------
-async function ensureTopicQueue(topicsDoc, posts) {
-  const queued = topicsDoc.topics.filter((t) => t.status === "queued")
+// 주제 상태는 topics.json 을 고치지 않고 "글 frontmatter의 topic" 으로 판단합니다.
+// 그래서 초안 PR이 여러 개 열려 있어도 서로 충돌하지 않습니다.
+function loadTopics() {
+  const topics = [...readJSON(TOPICS_FILE).topics]
+  if (fs.existsSync(AUTO_DIR)) {
+    for (const f of fs.readdirSync(AUTO_DIR).filter((f) => f.endsWith(".json")).sort()) {
+      topics.push(...readJSON(path.join(AUTO_DIR, f)).topics)
+    }
+  }
+  return topics
+}
+
+function usedTopicIds(posts) {
+  const pending = (process.env.BLOG_PENDING_TOPICS || "").split(",").map((s) => s.trim()).filter(Boolean)
+  return new Set([...posts.map((p) => p.topic).filter(Boolean), ...pending])
+}
+
+async function ensureTopicQueue(topics, used) {
+  const queued = topics.filter((t) => t.status === "queued" && !used.has(t.id))
   if (queued.length >= 4 || DRY) return
   console.log(`대기 주제가 ${queued.length}개뿐이라 새 주제 6개를 제안받습니다.`)
   const style = fs.readFileSync(STYLE_FILE, "utf8")
-  const known = topicsDoc.topics.map((t) => `- ${t.topic}`).join("\n")
+  const known = topics.map((t) => `- ${t.topic}`).join("\n")
   const result = await gemini({
     system: "당신은 중소기업 AI 전환(AX) 컨설팅 회사의 콘텐츠 편집장입니다. 한국어로 답합니다.",
     user: `아래 독자·기준에 맞는 새 블로그 주제 6개를 제안하세요. 이미 다룬 주제와 겹치지 않아야 하고, 네 분류(strategy, industry, practice, guide)를 고르게 섞으세요.\n\n[기준]\n${style}\n\n[이미 있는 주제]\n${known}`,
@@ -182,24 +202,33 @@ async function ensureTopicQueue(topicsDoc, posts) {
     },
     temperature: 0.9,
   })
-  for (const t of result.topics.slice(0, 6)) {
-    topicsDoc.topics.push({ id: `auto-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`, status: "queued", source: "auto", ...t })
-  }
+  const fresh = result.topics.slice(0, 6).map((t, i) => ({
+    id: `auto-${todayKST().replaceAll("-", "")}-${i + 1}`,
+    status: "queued",
+    source: "auto",
+    ...t,
+  }))
+  fs.mkdirSync(AUTO_DIR, { recursive: true })
+  fs.writeFileSync(
+    path.join(AUTO_DIR, `${todayKST()}.json`),
+    JSON.stringify({ _help: "자동 제안 주제. 지우거나 status를 skip 으로 바꾸면 건너뜁니다.", topics: fresh }, null, 2) + "\n"
+  )
+  topics.push(...fresh)
 }
 
 // ---------- main ----------
 async function main() {
-  const topicsDoc = readJSON(TOPICS_FILE)
   const posts = existingPosts()
-  await ensureTopicQueue(topicsDoc, posts)
+  const topics = loadTopics()
+  const used = usedTopicIds(posts)
+  await ensureTopicQueue(topics, used)
 
   let topic
   if (process.env.BLOG_TOPIC) {
     const cat = CATEGORIES.includes(process.env.BLOG_CATEGORY) ? process.env.BLOG_CATEGORY : "strategy"
     topic = { id: `manual-${todayKST()}`, status: "queued", source: "manual", category: cat, topic: process.env.BLOG_TOPIC, reader: "중소기업 대표와 실무 책임자", angle: "" }
-    topicsDoc.topics.push(topic)
   } else {
-    topic = topicsDoc.topics.find((t) => t.status === "queued")
+    topic = topics.find((t) => t.status === "queued" && !used.has(t.id))
   }
   if (!topic) throw new Error("작성할 주제가 없습니다. content/blog/topics.json 에 status: queued 주제를 추가하세요.")
   console.log(`주제: [${topic.category}] ${topic.topic}`)
@@ -267,6 +296,7 @@ async function main() {
     `title: ${oneLine(post.title)}`,
     `description: ${oneLine(post.description)}`,
     `category: ${topic.category}`,
+    `topic: ${topic.id}`,
     `tags: ${JSON.stringify(tags)}`,
     `date: ${date}`,
     `faq: ${JSON.stringify(faq)}`,
@@ -278,8 +308,6 @@ async function main() {
 
   fs.mkdirSync(POSTS, { recursive: true })
   fs.writeFileSync(path.join(POSTS, `${slug}.md`), md)
-  Object.assign(topic, { status: "drafted", slug, date })
-  fs.writeFileSync(TOPICS_FILE, JSON.stringify(topicsDoc, null, 2) + "\n")
 
   // PR 본문과 워크플로 출력값
   const prBody = [
