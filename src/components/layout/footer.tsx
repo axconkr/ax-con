@@ -10,6 +10,7 @@ const navigation = {
     { label: "회사 소개", href: "/about" },
     { label: "성공 사례", href: "/cases" },
     { label: "요금제", href: "/pricing" },
+    { label: "AX 인사이트", href: "/blog" },
     { label: "문의하기", href: "/contact" },
   ],
 }

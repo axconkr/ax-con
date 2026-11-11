@@ -10,6 +10,7 @@ const navigation = [
   { label: "서비스", href: "/services/consulting" },
   { label: "사례", href: "/cases" },
   { label: "요금", href: "/pricing" },
+  { label: "인사이트", href: "/blog" },
   { label: "소개", href: "/about" },
 ]
 

@@ -1,7 +1,24 @@
 import { MetadataRoute } from "next"
+import { CATEGORIES, getAllPosts } from "@/lib/blog"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://ax-con.com"
+
+  const blogEntries: MetadataRoute.Sitemap = [
+    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
+    ...Object.keys(CATEGORIES).map((c) => ({
+      url: `${baseUrl}/blog/category/${c}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    })),
+    ...getAllPosts().map((p) => ({
+      url: `${baseUrl}/blog/${p.slug}`,
+      lastModified: new Date(p.updated ?? p.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+  ]
 
   return [
     {
@@ -70,5 +87,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    ...blogEntries,
   ]
 }
