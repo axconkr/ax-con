@@ -1,15 +1,13 @@
 {
-  "_help": "자동 작성 주제 대기열입니다. status가 queued인 항목을 위에서부터 하나씩 씁니다. 순서를 바꾸거나 새 주제를 추가해도 됩니다. category: strategy | industry | practice | guide",
+  "_help": "자동 작성 주제 대기열입니다. 위에서부터, 아직 글이 없는(게시·초안 PR 모두 아닌) queued 주제를 하나씩 씁니다. 순서를 바꾸거나 새 주제를 추가해도 됩니다. 건너뛰려면 status를 skip 으로. category: strategy | industry | practice | guide",
   "topics": [
     {
       "id": "start-with-one-task",
-      "status": "published",
+      "status": "queued",
       "category": "strategy",
       "topic": "AI 도입을 전사 계획이 아니라 업무 하나로 시작해야 하는 이유",
       "reader": "AI 도입을 검토 중인 중소기업 대표",
-      "angle": "전사 로드맵부터 그리면 실행이 멈추는 구조와, 업무 하나를 4주 안에 바꿔 보는 접근의 차이",
-      "slug": "start-ai-with-one-task",
-      "date": "2026-11-11"
+      "angle": "전사 로드맵부터 그리면 실행이 멈추는 구조와, 업무 하나를 4주 안에 바꿔 보는 접근의 차이"
     },
     {
       "id": "mfg-data-not-ready",

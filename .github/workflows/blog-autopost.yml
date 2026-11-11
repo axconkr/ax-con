@@ -36,9 +36,26 @@ jobs:
         with:
           node-version: 20
 
+      - name: Find topics already in open draft PRs
+        id: pending
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ids=""
+          for b in $(gh pr list --label blog-draft --state open --json headRefName -q '.[].headRefName'); do
+            git fetch -q --depth=1 origin "$b" || continue
+            for f in $(git diff --name-only --diff-filter=A HEAD FETCH_HEAD -- content/blog/posts); do
+              id=$(git show "FETCH_HEAD:$f" | sed -n 's/^topic: *//p' | head -1)
+              [ -n "$id" ] && ids="$ids,$id"
+            done
+          done
+          echo "ids=${ids#,}" >> "$GITHUB_OUTPUT"
+          echo "열린 초안 PR의 주제: ${ids#,}"
+
       - name: Write draft with Gemini
         id: gen
         env:
+          BLOG_PENDING_TOPICS: ${{ steps.pending.outputs.ids }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
           BLOG_TOPIC: ${{ github.event.inputs.topic }}
