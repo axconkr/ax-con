@@ -1,0 +1,135 @@
+{
+  "_help": "자동 작성 주제 대기열입니다. status가 queued인 항목을 위에서부터 하나씩 씁니다. 순서를 바꾸거나 새 주제를 추가해도 됩니다. category: strategy | industry | practice | guide",
+  "topics": [
+    {
+      "id": "start-with-one-task",
+      "status": "published",
+      "category": "strategy",
+      "topic": "AI 도입을 전사 계획이 아니라 업무 하나로 시작해야 하는 이유",
+      "reader": "AI 도입을 검토 중인 중소기업 대표",
+      "angle": "전사 로드맵부터 그리면 실행이 멈추는 구조와, 업무 하나를 4주 안에 바꿔 보는 접근의 차이",
+      "slug": "start-ai-with-one-task",
+      "date": "2026-11-11"
+    },
+    {
+      "id": "mfg-data-not-ready",
+      "status": "queued",
+      "category": "industry",
+      "topic": "제조 현장 데이터가 AI에 바로 쓰이지 않는 이유",
+      "reader": "중소 제조업 생산·품질 관리자",
+      "angle": "설비 로그, 작업일지, 엑셀이 제각각인 상태에서 AI 프로젝트가 데이터 정리로 끝나는 문제와 최소한의 정리 순서"
+    },
+    {
+      "id": "chatgpt-policy",
+      "status": "queued",
+      "category": "practice",
+      "topic": "직원들이 ChatGPT를 몰래 쓰기 전에 회사가 정해야 할 것",
+      "reader": "중소기업 대표, 총무·인사 담당자",
+      "angle": "금지만 하면 개인 계정으로 우회한다. 입력 금지 정보, 허용 업무, 계정 관리를 한 장으로 정하는 방법"
+    },
+    {
+      "id": "consulting-vs-solution",
+      "status": "queued",
+      "category": "guide",
+      "topic": "AX 컨설팅과 AI 솔루션 구매의 차이",
+      "reader": "AI 도입 방식을 비교하는 의사결정자",
+      "angle": "솔루션을 먼저 사면 업무가 솔루션에 맞춰진다. 업무 진단이 먼저인 이유와 각 방식이 맞는 상황"
+    },
+    {
+      "id": "clinic-front-desk",
+      "status": "queued",
+      "category": "industry",
+      "topic": "병의원 데스크 업무에서 AI가 먼저 덜어 줄 수 있는 일",
+      "reader": "의원·클리닉 원장, 실장",
+      "angle": "예약 문의, 사전 안내, 리콜 연락처럼 반복되는 응대와, 환자 정보 때문에 조심해야 할 경계"
+    },
+    {
+      "id": "roi-before-start",
+      "status": "queued",
+      "category": "strategy",
+      "topic": "AI 도입 효과를 시작 전에 숫자로 정해 둬야 하는 이유",
+      "reader": "AI 예산을 승인해야 하는 대표·재무 책임자",
+      "angle": "끝나고 효과를 찾으면 '편해졌다'만 남는다. 시간, 오류, 처리량 중 무엇을 기준으로 잡을지 정하는 법"
+    },
+    {
+      "id": "excel-report-automation",
+      "status": "queued",
+      "category": "practice",
+      "topic": "매주 반복되는 엑셀 보고서를 자동화할 때 먼저 확인할 것",
+      "reader": "영업·생산 실적 보고서를 만드는 실무자",
+      "angle": "원본 위치, 집계 기준, 예외 처리 세 가지가 정리되지 않으면 자동화가 오히려 오류를 키운다"
+    },
+    {
+      "id": "gov-support-ax",
+      "status": "queued",
+      "category": "guide",
+      "topic": "정부 지원사업으로 AI를 도입할 때 확인해야 할 것",
+      "reader": "지원사업으로 AI 도입 비용을 줄이려는 중소기업",
+      "angle": "지원금에 맞춰 과제를 고르면 끝나고 쓰지 않는 시스템이 남는다. 과제를 먼저 정하고 사업을 고르는 순서"
+    },
+    {
+      "id": "logistics-dispatch",
+      "status": "queued",
+      "category": "industry",
+      "topic": "물류 회사의 배차·문의 응대에 AI를 붙이는 순서",
+      "reader": "중소 물류·운송사 운영 책임자",
+      "angle": "전화와 메신저로 들어오는 문의를 정형화하는 것부터 시작해야 하는 이유"
+    },
+    {
+      "id": "internal-doc-chatbot",
+      "status": "queued",
+      "category": "practice",
+      "topic": "사내 문서 챗봇이 엉뚱한 답을 하는 이유",
+      "reader": "사내 규정·매뉴얼 챗봇을 만들었거나 검토 중인 담당자",
+      "angle": "문서 버전 관리, 표와 이미지, 권한 구분이 안 된 상태에서 생기는 오답과 정리 방법"
+    },
+    {
+      "id": "ai-champion",
+      "status": "queued",
+      "category": "strategy",
+      "topic": "AI 전환을 외부 업체에만 맡기면 안 되는 이유",
+      "reader": "AI 프로젝트를 외주로 맡기려는 대표",
+      "angle": "업무를 아는 내부 담당자 한 명이 없으면 납품 후 유지가 안 된다. 내부 담당자의 역할과 시간 배분"
+    },
+    {
+      "id": "onprem-vs-cloud",
+      "status": "queued",
+      "category": "guide",
+      "topic": "사내 전용 AI와 클라우드 AI 서비스 중 무엇을 써야 하나",
+      "reader": "보안 때문에 AI 도입을 망설이는 기업",
+      "angle": "다루는 정보의 민감도, 비용, 운영 인력을 기준으로 선택이 갈리는 지점"
+    },
+    {
+      "id": "quote-automation",
+      "status": "queued",
+      "category": "industry",
+      "topic": "견적서 작성에 걸리는 시간을 줄이는 방법",
+      "reader": "주문 생산 제조업체·건설업체의 영업 담당자",
+      "angle": "과거 견적 이력과 단가표가 흩어져 있으면 생기는 지연과, AI가 초안을 만들고 사람이 확정하는 구조"
+    },
+    {
+      "id": "meeting-minutes",
+      "status": "queued",
+      "category": "practice",
+      "topic": "회의록 자동화가 기록에서 끝나지 않으려면",
+      "reader": "회의가 많은 팀의 리더",
+      "angle": "녹음·요약은 쉬워졌지만 결정 사항과 담당자 추적이 빠지면 쓸모가 없다"
+    },
+    {
+      "id": "why-poc-fails",
+      "status": "queued",
+      "category": "strategy",
+      "topic": "AI POC가 성공하고도 현장에 안 쓰이는 이유",
+      "reader": "POC를 해 봤거나 계획 중인 기업",
+      "angle": "시연용 데이터와 실제 업무 흐름의 차이, 현업 담당자가 빠진 평가, 운영 책임자 부재"
+    },
+    {
+      "id": "small-company-first-step",
+      "status": "queued",
+      "category": "guide",
+      "topic": "직원 20명 회사가 AI 전환을 시작할 때 첫 한 달",
+      "reader": "작은 규모의 제조·서비스 기업 대표",
+      "angle": "업무 목록 만들기, 반복 업무 고르기, 도구 시험, 효과 측정까지 한 달 단위 순서"
+    }
+  ]
+}
