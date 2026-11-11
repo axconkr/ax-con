@@ -13,11 +13,13 @@
     },
     {
       "id": "mfg-data-not-ready",
-      "status": "queued",
+      "status": "drafted",
       "category": "industry",
       "topic": "제조 현장 데이터가 AI에 바로 쓰이지 않는 이유",
       "reader": "중소 제조업 생산·품질 관리자",
-      "angle": "설비 로그, 작업일지, 엑셀이 제각각인 상태에서 AI 프로젝트가 데이터 정리로 끝나는 문제와 최소한의 정리 순서"
+      "angle": "설비 로그, 작업일지, 엑셀이 제각각인 상태에서 AI 프로젝트가 데이터 정리로 끝나는 문제와 최소한의 정리 순서",
+      "slug": "why-manufacturing-data-fails-ai",
+      "date": "2026-11-11"
     },
     {
       "id": "chatgpt-policy",
